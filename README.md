@@ -1,6 +1,6 @@
 # vendrix-plugins
 
-Custom Vencord plugins shipped with [Vendrix](https://github.com/nin0dev/Vendrix).
+Custom Vencord plugins shipped with [Vendrix](https://github.com/relawiii/Vendrix).
 
 ## Plugins
 
