@@ -99,7 +99,7 @@ export default definePlugin({
     name: "Questify",
     description: "Enhance specific Quest features, disable annoyances, or completely remove Quests.",
     tags: ["Appearance", "Customisation", "Privacy", "Utility"],
-    authors: [Devs.Etorix ?? { name: "Etorix", id: 0n }],
+    authors: [Devs.Etorix ?? { name: "Etorix", id: 0n }, { name: "irulune", id: 0n }],
     dependencies: ["AudioPlayerAPI", "ServerListAPI"],
     startAt: StartAt.Init, // Needed in order to beat Read All Messages to inserting above the server list.
     managedStyle,
@@ -619,14 +619,16 @@ export default definePlugin({
 
     start() {
         if (!enabledOnStartup && PlainSettings.plugins.Questify?.enabled) {
+            // Plugin was just toggled on at runtime — patches haven't applied yet,
+            // so prompt immediately rather than waiting for the settings modal to close.
             setRestartDirty(true);
+            promptToRestartIfDirty();
+            return;
         }
 
         initializeRestartTracking(settings);
 
-        if (enabledOnStartup) {
-            addServerListElement(ServerListRenderPosition.Above, this.renderQuestifyButton);
-        }
+        addServerListElement(ServerListRenderPosition.Above, this.renderQuestifyButton);
 
         onceReady.then(() => {
             if (!getQuestifySettings().disableQuestsEverything) {
